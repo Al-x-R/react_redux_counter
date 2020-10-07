@@ -1,23 +1,31 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {connect} from 'react-redux'
 
-const Counter = () => {
-    const [count, setCount] = useState(0)
-
-    const increment = () => {
-        return setCount(count + 1)
-    }
-
-    const decrement = () => {
-        return setCount(count - 1)
-    }
+const Counter = (props) => {
+    const {value, step, increment, decrement} = props
 
         return (
             <div>
-                <h1>{count}</h1>
+                <h1>{value}</h1>
                 <button onClick={increment}>+</button>
                 <button onClick={decrement}>-</button>
             </div>
         );
 }
 
-export default Counter;
+const mapStateToProps = (state) => {
+    return state.counter
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        increment: () => dispatch({
+            type: 'INCREMENT'
+        }),
+        decrement: () => dispatch({
+            type: 'DECREMENT'
+        })
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
